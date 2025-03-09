@@ -1,0 +1,101 @@
+spring:
+  application:
+    name: salary-processor
+  boot:
+    admin:
+      client:
+        enabled: false
+  profiles:
+    active:
+#      - "dev"
+  kafka:
+    bootstrap-servers: localhost:9092
+    is-auto-create-topic-enabled: false
+    auth-exception-retry-interval-ms: 3000
+    properties:
+      sasl.jaas.config:
+      sasl.mechanism: PLAIN
+      security.protocol: PLAINTEXT
+      client.dns.lookup: use_all_dns_ips
+      max.request.size: 10000000
+      allow.auto.create.topics: false
+      session.timeout.ms: 45000
+      health-indicator.timeout-ms: 5000
+      specific.avro.reader: true
+      #Schema Registry Properties
+      auto.register.schemas: true
+      basic.auth.credentials.source:
+      basic.auth.user.info:
+      schema.registry.url: http://localhost:8081
+      default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+      default.value.serde: org.springframework.kafka.support.serializer.JsonSerde
+      application.id: ${LOG_METADATA_SOURCE}
+    producer:
+      acks: all
+      batch-size: 0
+      compression-type: gzip
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+    consumer:
+      properties:
+        spring.trusted.packages: *
+        spring.json:
+        value:
+          default:
+            type: com.dpdemo.salaryincreaser.models.Employee
+        type:
+          mapping: com.dpdemo.salaryincreaser.models.Employee:com.dpdemo.salaryincreaser.models.Employee
+        trusted:
+          packages: com.dpdemo.*
+        partition:
+          assignment:
+            strategy: org.apache.kafka.clients.consumer.CooperativeStickyAssignor
+      group-id: salary-processor
+      auto-offset-reset: latest
+      max-poll-records: 250
+
+  main:
+    banner-mode: off
+    allow-bean-definition-overriding: true
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+app:
+  kafka:
+    topic:
+      produce-topic: output-topic
+      read-topic: read-topic
+      dead-letter-topic: dead-letter-topic
+
+
+developer-strategy: true
+director-strategy: false
+manager-strategy: false
+team-lead-strategy: false
+
+#Enhance properties
+bonus:
+    bonus-props:
+      developer:
+         salaryLimit: 5000
+         percentage: 10
+      team-lead:
+         salaryLimit: 9000
+         percentage: 8
+      manager:
+         salaryLimit: 14000
+         percentage: 7
+      director:
+         salaryLimit: 20000
+         percentage: 3
+
+LOG_METADATA_SOURCE: salary-processor
