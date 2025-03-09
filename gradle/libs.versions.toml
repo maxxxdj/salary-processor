@@ -1,0 +1,46 @@
+[versions]
+## Spring Boot ##
+springBootVersion = "3.3.5"
+springBootAdminVersion = "3.3.4"
+asyncHealthIndicator = "boot3-v1.3"
+
+## Logging and Monitoring##
+logstashLogbackEncoderVersion = "8.0"
+
+## Kafka ##
+kafkaStreamsSerdeVersion = "7.5.1"
+
+## Plugins ##
+gitPropertiesVersion = "2.4.1"
+springDependencyManagementVersion = "1.1.6"
+
+[libraries]
+## Spring Boot ##
+springBootActuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+springBootWeb = { module = "org.springframework.boot:spring-boot-starter-web" }
+
+springBootAdmin = { module = "de.codecentric:spring-boot-admin-starter-client", version.ref = "springBootAdminVersion" }
+
+## Kafka ##
+springKafka = { module = "org.springframework.kafka:spring-kafka" }
+kafkaStreams = { module = "org.apache.kafka:kafka-streams" }
+kafkaStreamsAvroSerde = { module = "io.confluent:kafka-streams-avro-serde", version.ref = "kafkaStreamsSerdeVersion" }
+kafkaStreamsJsonSerde = { module = "io.confluent:kafka-streams-json-schema-serde", version.ref = "kafkaStreamsSerdeVersion" }
+
+## Logging and Monitoring ##
+logstashLogbackEncoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstashLogbackEncoderVersion" }
+micrometerPrometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
+asyncHealthIndicator = { module = "com.teketik:async-health-indicator", version.ref = "asyncHealthIndicator" }
+
+## Testing ##
+springBootSarterTest = { module = "org.springframework.boot:spring-boot-starter-test" }
+kafkaStreamsTestUtils = { module = "org.apache.kafka:kafka-streams-test-utils" }
+
+## Other ##
+lombok = { module = "org.projectlombok:lombok" }
+springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test" }
+
+[plugins]
+gitProperties = { id = "com.gorylenko.gradle-git-properties", version.ref = "gitPropertiesVersion" }
+springBoot = { id = "org.springframework.boot", version.ref = "springBootVersion" }
+springDependencyManagement = { id = "io.spring.dependency-management", version.ref = "springDependencyManagementVersion" }
